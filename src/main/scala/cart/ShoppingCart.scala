@@ -9,16 +9,28 @@ object ShoppingCart {
     //Step 1: Caculate cost without offers
     var applesCost = 0.0
     if (basket.isDefinedAt("apple")) {
-      val allApplesNumber = basket("apple").length
+      val NumberOfApples = basket("apple").length
       val applePrice = PriceList.fruit("apple")
-      applesCost = allApplesNumber * applePrice
+      //Step 2: buy one, get one free on Apples
+      applesCost = if (NumberOfApples >= 2) {
+        NumberOfApples % 2 * applePrice + (NumberOfApples / 2 * applePrice)
+      } else {
+        NumberOfApples * applePrice
+      }
     }
 
     var orangesCost = 0.0
     if (basket.isDefinedAt("orange")) {
-      val allOrangesNumber = basket("orange").length
+      val NumberOfOranges = basket("orange").length
       val orangePrice = PriceList.fruit("orange")
-      orangesCost = allOrangesNumber * orangePrice
+      //Step 2: 3 for the price of 2 on Oranges
+      orangesCost = if (NumberOfOranges >= 3) {
+        NumberOfOranges % 3 * orangePrice + (NumberOfOranges / 3 * 2 * orangePrice)
+      } else {
+        NumberOfOranges * orangePrice
+      }
+
+
     }
 
     applesCost + orangesCost
